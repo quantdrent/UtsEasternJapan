@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d7c49a">
+  <meta name="description" content="Explore eight periods of Japanese history through art. An interactive Eastern Art Review project.">
+  <title>Eastern art review test</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#period-grid">Skip to periods</a>
+<main class="room" id="room" aria-label="A vintage computer on a wooden table in a Japanese room">
+  <div class="room-layer" aria-hidden="true"></div>
+  <div class="desk-layer" aria-hidden="true"></div>
+  <div class="computer">
+    <div class="monitor">
+      <div class="socket" id="socket">
+        <section class="screen crt-enabled" id="screen" aria-label="Japanese history portal">
+          <div class="portal" id="portal">
+            <header class="masthead"><h1><a class="wordmark" href="#" aria-label="Japanese history home">JAPANESE HISTORY</a></h1></header>
+            <nav class="nav" aria-label="Main navigation"><a href="#" class="current" id="home-link">HOME</a><button type="button" id="info-button" aria-expanded="false" aria-controls="info-window">INFO</button><span>ENGLISH <b>＋</b></span></nav>
+            <div class="news"><b>woww</b><div class="ticker" aria-label="Pick a Period. Cool Artifacts."><div class="ticker-track" aria-hidden="true"><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span></div></div></div>
+            <div class="period-grid" id="period-grid" tabindex="-1" aria-label="Historical periods"></div>
+            <section class="info-window" id="info-window" hidden aria-labelledby="info-title"><header class="info-titlebar"><h2 id="info-title" tabindex="-1">INFO</h2><button type="button" id="info-close" aria-label="Close info">×</button></header><div class="info-names"><p>orlean</p><p>hiro</p><p>varo</p><p>chelson</p><p>jendra</p></div></section>
+            <footer><span>Eastern Art Review</span></footer>
+          </div>
+          <div class="connection" id="connection" hidden aria-live="polite"><div class="connection-window"><div class="connection-title"><span>OPENING DOCUMENT</span><span aria-hidden="true">_ □</span></div><div class="connection-body"><span class="hourglass" aria-hidden="true">⌛</span><div><b id="connection-name">Opening period...</b><span>Eastern Art Review / History directory</span></div></div><div class="connection-track"><div id="connection-progress"></div></div><div class="connection-status">Please wait<span id="connection-percent">0%</span></div></div></div>
+          <section class="selection" id="selection" hidden aria-label="Period page"><button class="return" type="button" id="return">back</button></section>
+          <div class="crt-glass" aria-hidden="true"></div><div class="crt-grain" aria-hidden="true"></div><div class="crt-scan" aria-hidden="true"></div>
+        </section>
+      </div>
+      <div class="case-controls" aria-hidden="true"><span class="switch"></span><span class="power-light"></span></div>
+    </div><div class="neck" aria-hidden="true"></div><div class="foot" aria-hidden="true"></div>
+  </div>
+</main>
+<div id="zoom-stage" class="zoom-stage" hidden></div>
+<audio id="landing-audio" src="assets/Backgroundsoundlanding.mp3" loop preload="auto"></audio>
+</body>
+</html>
