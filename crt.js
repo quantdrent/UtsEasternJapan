@@ -39,12 +39,12 @@ void main(){
 
   // Curved scanlines: soft dark gap every 3 CSS px along the warped vertical axis.
   float s = 0.5 + 0.5 * cos(px.y * TAU / 3.0);
-  float scan = 1.0 - 0.10 * s * s;
+  float scan = 1.0 - 0.065 * s * s;
 
   // Curved aperture-grille phosphor mask (R/G/B columns).
   float ph = px.x * TAU / 3.0;
   vec3 mask = 0.5 + 0.5 * vec3(cos(ph), cos(ph - TAU / 3.0), cos(ph + TAU / 3.0));
-  mask = 1.0 - 0.055 * (1.0 - mask);
+  mask = 1.0 - 0.035 * (1.0 - mask);
 
   // Rounded CRT tube mask & corner bezel falloff driven by barrel coordinates.
   vec2 ac = abs(c);
@@ -52,17 +52,17 @@ void main(){
   float edgeX = smoothstep(0.93, 1.005, ac.x);
   float edgeY = smoothstep(0.93, 1.005, ac.y);
   float rim = clamp(max(max(edgeX, edgeY), smoothstep(0.55, 1.02, corner)), 0.0, 1.0);
-  float tube = mix(1.0, 0.22, rim) * (1.0 - 0.065 * dot(c, c));
+  float tube = mix(1.0, 0.22, rim) * (1.0 - 0.03 * dot(c, c));
 
   // Slow refresh band rolling down the curved glass.
   float y = 1.0 - fract(t * 0.05);
-  float roll = 1.0 - 0.025 * exp(-pow((wuv.y - y) * 12.0, 2.0));
+  float roll = 1.0 - 0.018 * exp(-pow((wuv.y - y) * 12.0, 2.0));
 
   // Fine animated grain and a subtle flicker.
-  float grain = 1.0 - 0.025 * hash(floor(px * 0.8) + floor(t * 24.0) * vec2(17.0, 31.0));
-  float flicker = 1.0 - 0.01 * hash(vec2(floor(t * 18.0), 7.0));
+  float grain = 1.0 - 0.018 * hash(floor(px * 0.8) + floor(t * 24.0) * vec2(17.0, 31.0));
+  float flicker = 1.0 - 0.008 * hash(vec2(floor(t * 18.0), 7.0));
 
-  vec3 warm = vec3(1.0, 0.995, 0.98); // aged phosphor warmth
+  vec3 warm = vec3(1.0);
   gl_FragColor = vec4(mask * warm * scan * tube * roll * grain * flicker, 1.0);
 }`;
 

@@ -1,12 +1,12 @@
 const periods = [
-  {id:'jomon',name:'Jōmon',short:'JOMON',type:'POTTERY',color:'#1b5ec9'},
-  {id:'yayoi',name:'Yayoi',short:'YAYOI',type:'BRONZE',color:'#24634b'},
-  {id:'kofun',name:'Kofun',short:'KOFUN',type:'TOMB FIGURES',color:'#087d8c'},
-  {id:'heian',name:'Heian',short:'HEIAN',type:'SCULPTURE',color:'#7c2682'},
-  {id:'kamakura',name:'Kamakura',short:'KAMAKURA',type:'HANDSCROLL',color:'#24388f'},
-  {id:'muromachi',name:'Muromachi',short:'MUROMACHI',type:'INK PAINTING',color:'#1d6b52'},
-  {id:'momoyama',name:'Azuchi-Momoyama',short:'MOMOYAMA',type:'GOLD SCREENS',color:'#b84b14'},
-  {id:'edo',name:'Edo',short:'EDO',type:'WOODBLOCK PRINT',color:'#b5182b'}
+  {id:'jomon',name:'Jōmon',short:'JOMON',type:'POTTERY',color:'#004de6'},
+  {id:'yayoi',name:'Yayoi',short:'YAYOI',type:'BRONZE',color:'#00a63e'},
+  {id:'kofun',name:'Kofun',short:'KOFUN',type:'TOMB FIGURES',color:'#009fe8'},
+  {id:'heian',name:'Heian',short:'HEIAN',type:'SCULPTURE',color:'#a30093'},
+  {id:'kamakura',name:'Kamakura',short:'KAMAKURA',type:'HANDSCROLL',color:'#1828d9'},
+  {id:'muromachi',name:'Muromachi',short:'MUROMACHI',type:'INK PAINTING',color:'#008a65'},
+  {id:'momoyama',name:'Azuchi-Momoyama',short:'MOMOYAMA',type:'GOLD SCREENS',color:'#ff4400'},
+  {id:'edo',name:'Edo',short:'EDO',type:'WOODBLOCK PRINT',color:'#e60012'}
 ];
 const $ = s => document.querySelector(s);
 const grid = $('#period-grid');
@@ -30,8 +30,10 @@ function renderMotion(){
 function setTarget(x,y){tx=x;ty=y;if(!frame) frame=requestAnimationFrame(renderMotion);}
 $('#room').addEventListener('pointermove',e=>{
   if(!motion||media.matches||e.pointerType!=='mouse'||active||busy||looking||lookFrame)return;
+  if(!e.target.closest('#screen')){setTarget(0,0);return;}
   setTarget((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2);
 });
+$('#screen').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFrame&&!busy)setTarget(0,0);});
 $('#room').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFrame&&!busy)setTarget(0,0);});
 media.addEventListener('change',()=>{motion=!media.matches;if(!motion)setTarget(0,0);});
 
@@ -214,13 +216,18 @@ async function enter(period,animate=true){
   if(busy)return;
   if(active){updateSelection(period);return;}
   busy=true;lastTrigger=document.activeElement;active=period;
-  const fromCamera=room.style.transform||'translate(0,0) scale(1)';
+  const wasLooking=looking||lookFrame||currentScale>1.001;
+  const lookTransform=room.style.transform||'translate(0,0) scale(1)';
   stopLook(true);
   // Freeze parallax at its current position so the camera has a stable target.
   if(frame)cancelAnimationFrame(frame);frame=0;tx=px;ty=py;
-  const camera=cameraTarget();
   document.body.classList.add('zoom-active');
   document.body.style.overflow='hidden';
+  if(animate&&!media.matches&&wasLooking){
+    await room.animate([{transform:lookTransform},{transform:'translate(0,0) scale(1)'}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'}).finished;
+  }
+  const fromCamera=room.style.transform||'translate(0,0) scale(1)';
+  const camera=cameraTarget();
   if(animate&&!media.matches){
     const finishOpening=await openingDocument(period);
     // Move the entire scene past the viewer. The webpage stays inside the CRT.

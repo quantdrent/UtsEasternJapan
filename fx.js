@@ -169,9 +169,14 @@ void main(){
   if (!signal && !room) return;
 
   // Event-driven signal effects, observed from the DOM so app.js stays untouched.
-  const born = performance.now();
+  const monitor = screen.closest('.monitor');
+  const portal = document.getElementById('portal');
+  const powerBtn = document.getElementById('power-button');
+  const switchEl = monitor && monitor.querySelector('.switch');
+  let powerOn = true, powerFrom = 0, powerTarget = 1, powerStart = performance.now(), powerDuration = 1000;
+  let currentPower = 0;
   let glitchAt = -1e9, glitchStrength = 0;
-  const POWER_MS = 1000, GLITCH_MS = 280;
+  const POWER_ON_MS = 1000, POWER_OFF_MS = 460, GLITCH_MS = 280;
   function kick(strength) { glitchAt = performance.now(); glitchStrength = strength; }
   const watch = (element, handler, options) => element && new MutationObserver(handler).observe(element, options);
   watch(document.getElementById('connection'), () => kick(1), { attributes: true, attributeFilter: ['hidden'] });
@@ -179,6 +184,29 @@ void main(){
   watch(document.getElementById('socket'), records => {
     if (records.some(record => [...record.addedNodes].includes(screen))) kick(0.8);
   }, { childList: true });
+
+  function togglePower() {
+    if (document.body.classList.contains('zoom-active')) return;
+    const now = performance.now();
+    powerOn = !powerOn;
+    powerFrom = currentPower;
+    powerTarget = powerOn ? 1 : 0;
+    powerDuration = (powerOn ? POWER_ON_MS : POWER_OFF_MS) * Math.max(0.25, Math.abs(powerTarget - powerFrom));
+    powerStart = now;
+    if (powerBtn) powerBtn.setAttribute('aria-pressed', String(powerOn));
+    if (monitor) {
+      monitor.classList.toggle('power-off', !powerOn);
+      if (powerOn) monitor.classList.remove('screen-asleep');
+    }
+    if (portal) portal.inert = !powerOn;
+    if (still.matches) {
+      currentPower = powerTarget;
+      if (monitor) monitor.classList.toggle('screen-asleep', !powerOn);
+    }
+    requestAnimationFrame(render);
+  }
+  if (powerBtn) powerBtn.addEventListener('click', togglePower);
+  if (switchEl) switchEl.addEventListener('click', togglePower);
 
   function sizeSignal() {
     if (!signal) return;
@@ -196,10 +224,12 @@ void main(){
   let lastIdle = 0;
   function render(now) {
     const seconds = (now / 1000) % 1000;
-    const power = Math.min(1, (now - born) / POWER_MS);
+    const tPower = powerDuration > 0 ? Math.min(1, Math.max(0, (now - powerStart) / powerDuration)) : 1;
+    currentPower = still.matches ? powerTarget : powerFrom + (powerTarget - powerFrom) * tPower;
+    if (monitor) monitor.classList.toggle('screen-asleep', currentPower <= 0.001);
     const glitch = glitchStrength * Math.max(0, 1 - (now - glitchAt) / GLITCH_MS);
-    const busy = power < 1 || glitch > 0;
-    // Full frame rate during power-on / glitches, ~30fps otherwise.
+    const busy = tPower < 1 || glitch > 0;
+    // Full frame rate during power-on / power-off / glitches, ~30fps otherwise.
     const idleTick = now - lastIdle > 33;
     if (idleTick) lastIdle = now;
 
@@ -207,16 +237,16 @@ void main(){
       signal.set('r', signal.canvas.width, signal.canvas.height);
       signal.set('t', seconds);
       signal.set('d', signal.dpr);
-      signal.set('power', power);
+      signal.set('power', currentPower);
       signal.set('glitch', glitch);
       signal.draw();
     }
-    if (room && !room.lost && idleTick && (!stage || stage.hidden)) {
+    if (room && !room.lost && (busy || idleTick) && (!stage || stage.hidden)) {
       const rect = screen.getBoundingClientRect();
       room.set('r', roomCanvas.width, roomCanvas.height);
       room.set('t', seconds);
       room.set('s', rect.left, innerHeight - rect.bottom, rect.width, rect.height);
-      room.set('glow', 1);
+      room.set('glow', currentPower);
       room.draw();
     }
     if (!still.matches) requestAnimationFrame(render);
