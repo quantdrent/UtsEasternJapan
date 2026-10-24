@@ -1,12 +1,12 @@
 const periods = [
-  {id:'jomon',name:'Jōmon',short:'JOMON',type:'POTTERY',color:'#df2144'},
-  {id:'yayoi',name:'Yayoi',short:'YAYOI',type:'BRONZE',color:'#1864bc'},
-  {id:'kofun',name:'Kofun',short:'KOFUN',type:'TOMB FIGURES',color:'#12856c'},
-  {id:'heian',name:'Heian',short:'HEIAN',type:'SCULPTURE',color:'#a53c99'},
-  {id:'kamakura',name:'Kamakura',short:'KAMAKURA',type:'HANDSCROLL',color:'#293f8b'},
-  {id:'muromachi',name:'Muromachi',short:'MUROMACHI',type:'INK PAINTING',color:'#116e87'},
-  {id:'momoyama',name:'Azuchi-Momoyama',short:'MOMOYAMA',type:'GOLD SCREENS',color:'#a15b21'},
-  {id:'edo',name:'Edo',short:'EDO',type:'WOODBLOCK PRINT',color:'#e24728'}
+  {id:'jomon',name:'Jōmon',short:'JOMON',type:'POTTERY',color:'#1b5ec9'},
+  {id:'yayoi',name:'Yayoi',short:'YAYOI',type:'BRONZE',color:'#24634b'},
+  {id:'kofun',name:'Kofun',short:'KOFUN',type:'TOMB FIGURES',color:'#087d8c'},
+  {id:'heian',name:'Heian',short:'HEIAN',type:'SCULPTURE',color:'#7c2682'},
+  {id:'kamakura',name:'Kamakura',short:'KAMAKURA',type:'HANDSCROLL',color:'#24388f'},
+  {id:'muromachi',name:'Muromachi',short:'MUROMACHI',type:'INK PAINTING',color:'#1d6b52'},
+  {id:'momoyama',name:'Azuchi-Momoyama',short:'MOMOYAMA',type:'GOLD SCREENS',color:'#b84b14'},
+  {id:'edo',name:'Edo',short:'EDO',type:'WOODBLOCK PRINT',color:'#b5182b'}
 ];
 const $ = s => document.querySelector(s);
 const grid = $('#period-grid');
