@@ -55,3 +55,20 @@ body{overflow:hidden}
 .selection{min-height:100%;background:#fff;padding:16px;color:#000}
 .return{margin:0;padding:0;border:0;background:none;color:#0000ee;text-decoration:underline;font:16px 'Times New Roman',serif;cursor:pointer}
 @media(max-width:700px){.info-titlebar h2{font-size:2.8cqw}.info-titlebar button{font-size:5cqw}.info-names{font-size:4cqw}}
+
+/* WebGL CRT shader (crt.js): replaces the CSS glass/grain/scan layers when available. */
+.crt-shader{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;mix-blend-mode:multiply;border-radius:inherit}
+.crt-enabled.shader-on>.crt-shader{display:block}
+.crt-enabled.shader-on>.crt-glass,.crt-enabled.shader-on>.crt-grain,.crt-enabled.shader-on>.crt-scan{display:none}
+.crt-enabled.shader-on .portal{text-shadow:.45px 0 rgba(255,0,60,.22),-.45px 0 rgba(0,120,255,.22)}
+.zoom-stage .crt-shader{display:none!important}
+
+/* fx.js shader layers: signal (inside the screen, under the tube) and room light/grain (whole scene). */
+.crt-signal{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:8;border-radius:inherit}
+.zoom-stage .crt-signal{display:none!important}
+.room-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;mix-blend-mode:soft-light}
+
+/* warp.js: barrel-curve the in-monitor DOM while crt.js curves the glass/scanlines to match. */
+.screen.warp-on{background:#1c221e}
+.screen.warp-on>.portal,.screen.warp-on>.connection{filter:url(#crt-warp)}
+.zoom-stage .screen,.zoom-stage .portal{filter:none!important;background:#fff}
