@@ -36,9 +36,94 @@ $('#room').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFrame
 media.addEventListener('change',()=>{motion=!media.matches;if(!motion)setTarget(0,0);});
 
 const music=$('#landing-audio');
-music.volume=1;
+music.volume=0;
+let musicFade=0, musicStarting=false;
+let musicWanted=!location.hash.startsWith('#period/');
+const effects=Object.fromEntries(['mouse','loading'].map(name=>[name,$(`#sfx-${name}`)]));
+const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set()};
+let soundContext=null;
+try{soundContext=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});}catch{}
+effects.loading.loop=true;
+// Decode ahead of input, and skip quiet lead-in so the audible attack is immediate.
+function soundStart(buffer){
+  const channels=Array.from({length:buffer.numberOfChannels},(_,i)=>buffer.getChannelData(i));
+  let peak=0;
+  for(const channel of channels)for(let i=0;i<channel.length;i++)peak=Math.max(peak,Math.abs(channel[i]));
+  const threshold=Math.max(.001,peak*.025);
+  for(let i=0;i<buffer.length;i++){
+    if(channels.some(channel=>Math.abs(channel[i])>=threshold))return Math.max(0,i/buffer.sampleRate-.003);
+  }
+  return 0;
+}
+if(soundContext)Object.entries(effects).forEach(async([name,audio])=>{
+  try{
+    const response=await fetch(audio.src);
+    if(!response.ok)return;
+    const buffer=await soundContext.decodeAudioData(await response.arrayBuffer());
+    effectBuffers[name]={buffer,offset:soundStart(buffer)};
+  }catch{ /* Local file URLs retain the preloaded HTML audio fallback. */ }
+});
+function unlockEffects(){
+  if(soundContext?.state==='suspended')soundContext.resume().catch(()=>{});
+}
+function playEffect(name){
+  // Each mouse press gets its own voice; never restart a click already playing.
+  if(name==='loading')stopEffect(name);
+  const clip=effectBuffers[name];
+  if(soundContext&&clip){
+    unlockEffects();
+    const source=soundContext.createBufferSource();
+    source.buffer=clip.buffer;source.loop=name==='loading';
+    source.loopStart=clip.offset;source.loopEnd=clip.buffer.duration;
+    source.connect(soundContext.destination);effectSources[name].add(source);
+    source.onended=()=>{source.disconnect();effectSources[name].delete(source);};
+    source.start(0,clip.offset);
+    return;
+  }
+  const audio=effects[name].cloneNode();
+  audio.loop=name==='loading';effectSources[name].add(audio);
+  audio.onended=()=>effectSources[name].delete(audio);
+  audio.play().then(()=>{if(!effectSources[name].has(audio))audio.pause();}).catch(()=>effectSources[name].delete(audio));
+}
+function stopEffect(name){
+  for(const voice of effectSources[name]){
+    if(typeof voice.stop==='function')voice.stop();else voice.pause();
+  }
+  effectSources[name].clear();
+}
+function stopEffects(){Object.keys(effects).forEach(stopEffect);}
+document.addEventListener('pointerdown',e=>{
+  unlockEffects();
+  if(!onLanding()||busy||![0,1].includes(e.button))return;
+  playEffect('mouse');
+},true);
+document.addEventListener('keydown',unlockEffects,true);
+// Keyboard and assistive activation have no pointer-down event.
+document.addEventListener('click',e=>{
+  if(e.detail===0&&onLanding()&&!busy)playEffect('mouse');
+},true);
 function onLanding(){return !location.hash.startsWith('#period/')&&!document.body.classList.contains('zoom-active');}
-async function playMusic(){if(!onLanding())return;try{await music.play();if(!onLanding())music.pause();}catch{ /* Browsers may require a first gesture before playing audio. */ }}
+function fadeMusicTo(target,duration){
+  cancelAnimationFrame(musicFade);
+  const from=music.volume,start=performance.now();
+  const step=now=>{
+    const progress=duration?Math.min(1,(now-start)/duration):1;
+    const eased=progress*progress*(3-2*progress);
+    music.volume=from+(target-from)*eased;
+    if(progress<1)musicFade=requestAnimationFrame(step);
+    else{musicFade=0;if(target===0)music.pause();}
+  };
+  step(start);
+}
+async function playMusic(){
+  if(!musicWanted||musicStarting||!music.paused)return;
+  musicStarting=true;
+  try{
+    await music.play();
+    fadeMusicTo(musicWanted?1:0,650);
+  }catch{ /* Retry on the next user gesture if autoplay was blocked. */ }
+  finally{musicStarting=false;}
+}
 document.addEventListener('pointerdown',playMusic);
 document.addEventListener('click',playMusic);
 document.addEventListener('keydown',playMusic);
@@ -98,10 +183,15 @@ async function openingDocument(period){
   const connection=$('#connection'),progress=$('#connection-progress'),percent=$('#connection-percent');
   $('#connection-name').textContent=`Opening ${period.name}...`;
   connection.hidden=false;percent.textContent='0%';
-  const animation=progress.animate([{width:'0%'},{width:'100%'}],{duration:680,easing:'steps(14,end)',fill:'forwards'});
+  playEffect('loading');
+  const loadingClip=effectBuffers.loading;
+  const clipDuration=loadingClip?loadingClip.buffer.duration-loadingClip.offset:effects.loading.duration;
+  const duration=Number.isFinite(clipDuration)?Math.max(680,clipDuration*1000):2800;
+  const animation=progress.animate([{width:'0%'},{width:'100%'}],{duration,easing:'steps(14,end)',fill:'forwards'});
   let progressFrame;
-  const update=()=>{percent.textContent=`${Math.min(100,Math.round((animation.currentTime||0)/680*100))}%`;if(animation.playState==='running')progressFrame=requestAnimationFrame(update);};
+  const update=()=>{percent.textContent=`${Math.min(100,Math.round((animation.currentTime||0)/duration*100))}%`;if(animation.playState==='running')progressFrame=requestAnimationFrame(update);};
   update();await animation.finished;cancelAnimationFrame(progressFrame);percent.textContent='100%';
+  stopEffect('loading');
   return ()=>{connection.hidden=true;animation.cancel();};
 }
 function fitComputer(){
@@ -124,7 +214,6 @@ async function enter(period,animate=true){
   if(busy)return;
   if(active){updateSelection(period);return;}
   busy=true;lastTrigger=document.activeElement;active=period;
-  music.pause();
   const fromCamera=room.style.transform||'translate(0,0) scale(1)';
   stopLook(true);
   // Freeze parallax at its current position so the camera has a stable target.
@@ -136,13 +225,16 @@ async function enter(period,animate=true){
     const finishOpening=await openingDocument(period);
     // Move the entire scene past the viewer. The webpage stays inside the CRT.
     finishOpening();
+    musicWanted=false;fadeMusicTo(0,650);
     await room.animate([{transform:fromCamera},{transform:camera}],{duration:1350,easing:'cubic-bezier(.7,.03,.2,1)',fill:'forwards'}).finished;
     if(screen.classList.contains('crt-enabled'))await screen.animate([{filter:'brightness(1)'},{filter:'brightness(1.12) saturate(.7)'},{filter:'brightness(1)'}],{duration:180}).finished;
   }
+  musicWanted=false;fadeMusicTo(0,0);
   socket.style.height=`${socket.offsetHeight}px`;
   portal.hidden=true;selection.hidden=false;updateSelection(period);
   stage.append(screen);stage.hidden=false;room.inert=true;
   if(animate&&!media.matches)await stage.animate([{clipPath:'inset(0 0 100% 0)'},{clipPath:'inset(0 0 0% 0)'}],{duration:380,easing:'steps(20,end)'}).finished;
+  stopEffects();
   $('#return').focus({preventScroll:true});busy=false;
   syncRoute();
 }
@@ -152,9 +244,9 @@ async function leave(){
   room.getAnimations().forEach(a=>a.cancel());
   selection.hidden=true;portal.hidden=false;socket.append(screen);socket.style.height='';
   const camera=cameraTarget();stage.hidden=true;room.inert=false;
+  musicWanted=true;playMusic();
   if(!media.matches){await room.animate([{transform:camera},{transform:'translate(0,0) scale(1)'}],{duration:850,easing:'cubic-bezier(.64,0,.24,1)'}).finished;}
   document.body.classList.remove('zoom-active');document.body.style.overflow='';active=null;busy=false;
-  playMusic();
   fitComputer();if(lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});
   syncRoute();
 }
