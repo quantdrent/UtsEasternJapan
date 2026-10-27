@@ -1,12 +1,9 @@
-// WebGL fragment-shader barrel warp for the in-monitor DOM.
-// Uses a GLSL fragment shader to compute a smooth barrel-distortion vector field (R = dx, G = dy)
-// on the GPU, then feeds that shader texture into an SVG feDisplacementMap filter so the live
-// HTML UI bows outward like a curved CRT tube while keeping text crisp and 100% clickable.
+// bends the page inside the monitor to match the curved screen
 (() => {
   const screen = document.getElementById('screen');
   if (!screen) return;
 
-  const KX = 0.042, KY = 0.048; // subtle CRT barrel curvature matching crt.js
+  const KX = 0.042, KY = 0.048; // same curve as crt.js
 
   const mapCanvas = document.createElement('canvas');
   const gl = mapCanvas.getContext('webgl', {
@@ -20,10 +17,10 @@ precision highp float;
 uniform vec2 uSize;
 uniform float uScale;
 void main(){
-  // SVG feImage top-left is (0,0), while WebGL gl_FragCoord bottom-left is (0,0).
+  // flip y (webgl starts at the bottom)
   vec2 uv = vec2(gl_FragCoord.x / uSize.x, 1.0 - gl_FragCoord.y / uSize.y);
   vec2 c = uv * 2.0 - 1.0;
-  // Pure barrel curve pinned at center and mid-axes so the picture stays centered.
+  // barrel curve
   vec2 wc = c * (1.0 + vec2(${KX}, ${KY}) * (c.yx * c.yx - 0.18));
   vec2 deltaPx = (wc - c) * 0.5 * uSize;
   vec2 enc = clamp(0.5 + deltaPx / uScale, 0.0, 1.0);
@@ -75,6 +72,7 @@ void main(){
   let lastW = 0, lastH = 0, token = 0;
 
   async function build() {
+    if (screen.closest('#zoom-stage')) return;
     const w = screen.offsetWidth, h = screen.offsetHeight;
     if (!w || !h || (w === lastW && h === lastH)) return;
     lastW = w; lastH = h;
@@ -84,7 +82,7 @@ void main(){
     mapCanvas.width = mw; mapCanvas.height = mh;
     gl.viewport(0, 0, mw, mh);
 
-    // Keep uScale tight to the actual corner displacement so 8-bit steps stay sub-pixel (<0.1px).
+    // keep the scale small so the warp stays smooth
     const maxShift = Math.max(w, h) * 0.045;
     gl.uniform2f(uSize, mw, mh);
     gl.uniform1f(uScale, maxShift * (mw / w));

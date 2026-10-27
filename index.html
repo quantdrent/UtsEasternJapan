@@ -9,6 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
+  <script src="article-wash.js" defer></script>
   <script src="crt.js" defer></script>
   <script src="fx.js" defer></script>
   <script src="warp.js" defer></script>
@@ -27,7 +28,7 @@
               <h1><a class="wordmark" href="#" aria-label="Japanese history home">JAPANESE HISTORY</a></h1>
               <span>EASTERN ART REVIEW</span>
             </header>
-            <nav class="nav" aria-label="Main navigation"><a href="#" class="current" id="home-link">HOME</a><button type="button" id="info-button" aria-expanded="false" aria-controls="info-window">INFO</button><span>ENGLISH <b>＋</b></span></nav>
+            <nav class="nav" aria-label="Main navigation"><a href="#" class="current" id="home-link">HOME</a><button type="button" id="info-button" aria-expanded="false" aria-controls="info-window">CREDITS</button><span>ENGLISH <b>＋</b></span></nav>
             <div class="news"><b>LOOK!</b><div class="ticker" aria-label="Pick a Period. Cool Artifacts."><div class="ticker-track" aria-hidden="true"><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span><span>Pick a Period <i>///</i> Cool Artifacts <i>///</i></span></div></div></div>
             <div class="hero-banner" aria-hidden="true">
               <div class="hero-copy">
@@ -38,11 +39,22 @@
               <div class="shock-burst"><strong>8</strong><span>ERAS</span></div>
             </div>
             <div class="period-grid" id="period-grid" tabindex="-1" aria-label="Historical periods"></div>
-            <section class="info-window" id="info-window" hidden aria-labelledby="info-title"><header class="info-titlebar"><h2 id="info-title" tabindex="-1">INFO</h2><button type="button" id="info-close" aria-label="Close info">×</button></header><div class="info-names"><p>orlean</p><p>hiro</p><p>varo</p><p>chelson</p><p>jendra</p></div></section>
+            <section class="info-window" id="info-window" hidden aria-labelledby="info-title"><header class="info-titlebar"><h2 id="info-title" tabindex="-1">CREDITS</h2><button type="button" id="info-close" aria-label="Close credits">×</button></header><div class="info-names"><p>orlean</p><p>hiro</p><p>varo</p><p>chelson</p><p>jendra</p></div></section>
             <footer><span>Eastern Art Review</span></footer>
           </div>
           <div class="connection" id="connection" hidden aria-live="polite"><div class="connection-window"><div class="connection-title"><span>OPENING DOCUMENT</span><span aria-hidden="true">_ □</span></div><div class="connection-body"><span class="hourglass" aria-hidden="true">⌛</span><div><b id="connection-name">Opening period...</b><span>Eastern Art Review</span></div></div><div class="connection-track"><div id="connection-progress"></div></div><div class="connection-status">Please wait<span id="connection-percent">0%</span></div></div></div>
-          <section class="selection" id="selection" hidden aria-label="Period page"><button class="return" type="button" id="return">back</button></section>
+          <section class="selection" id="selection" hidden tabindex="-1" aria-label="Period page">
+            <canvas class="scroll-bg" id="scroll-bg" aria-hidden="true"></canvas>
+            <div class="period-page">
+              <button class="return" type="button" id="return">← back</button>
+              <header class="period-header">
+                <p class="period-kicker" id="period-kicker">DOGŪ FIGURINE · PREHISTORIC, ENDING C. 300 BCE</p>
+                <h2 class="period-title" id="period-title">Jōmon</h2>
+                <p class="period-sub" id="period-sub">Foraging and pottery</p>
+              </header>
+              <div class="period-body" id="period-body"></div>
+            </div>
+          </section>
           <div class="crt-glass" aria-hidden="true"></div><div class="crt-grain" aria-hidden="true"></div><div class="crt-scan" aria-hidden="true"></div>
         </section>
       </div>
@@ -52,6 +64,7 @@
 </main>
 <div id="zoom-stage" class="zoom-stage" hidden></div>
 <audio id="landing-audio" src="assets/Audio/Backgroundsoundlanding.mp3" loop preload="auto"></audio>
+<audio id="article-audio" loop preload="none"></audio>
 <audio id="sfx-mouse" src="assets/Audio/click-mouse.mp3" preload="auto"></audio>
 <audio id="sfx-loading" src="assets/Audio/LoadingLandingpage.mp3" preload="auto"></audio>
 </body>
