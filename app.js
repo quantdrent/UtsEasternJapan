@@ -166,8 +166,8 @@ const periods = [
 ];
 const $ = s => document.querySelector(s);
 const grid = $('#period-grid');
-// Landing-only palette sampled from the dense, colorful early Rakuten reference.
-// Period pages keep their original era colors through period.color.
+// palet warna kartu di landing page, referensi dari web rakuten jadul
+// halaman tiap era tetep pake warna aslinya lewat period.color
 const landingPalette=['#bf0000','#e56600','#b87900','#3d982f','#0082bd','#008d87','#6751a2','#d51f63'];
 periods.forEach((period,index)=>{
   const a=document.createElement('a'); a.className='era'; a.href=`#period/${period.id}`;
@@ -177,7 +177,7 @@ periods.forEach((period,index)=>{
   a.innerHTML=`<img class="era-art" src="${period.image}" alt="" aria-hidden="true" decoding="async"><span class="era-meta"><span class="era-number">${String(index+1).padStart(2,'0')}</span>${period.type}</span><span class="era-title">${period.short}</span>`;
   grid.append(a);
 });
-// Start pulling an era's photo and fonts as soon as a card is hovered or touched.
+// pas kartu di-hover atau disentuh, langsung preload gambar sama font-nya biar ga ngelag pas dibuka
 grid.addEventListener('pointerover',e=>{
   const card=e.target.closest('.era');
   if(card)warmArticle(periods.find(p=>card.hash===`#period/${p.id}`));
@@ -189,7 +189,7 @@ let motion=!media.matches, tx=0,ty=0,tz=0,px=0,py=0,pz=0,frame=0;
 const motionRoot=$('#room');
 function renderMotion(){
   px+=(tx-px)*.075; py+=(ty-py)*.075; pz+=(tz-pz)*.085;
-  // Scope the parallax vars to the room so each frame only restyles its subtree.
+  // taro variabel parallax di #room biar browser ga usah render ulang seluruh halaman
   motionRoot.style.setProperty('--px',px.toFixed(4));
   motionRoot.style.setProperty('--py',py.toFixed(4));
   motionRoot.style.setProperty('--pz',pz.toFixed(4));
@@ -210,7 +210,7 @@ const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set(),obesity
 let soundContext=null;
 try{soundContext=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});}catch{}
 effects.loading.loop=true;
-// preload sfx and skip the silent start
+// preload sound effect dan potong jeda kosong di awal audio biar responsif
 function soundStart(buffer){
   const channels=Array.from({length:buffer.numberOfChannels},(_,i)=>buffer.getChannelData(i));
   let peak=0;
@@ -227,7 +227,7 @@ if(soundContext)Object.entries(effects).forEach(async([name,audio])=>{
     if(!response.ok)return;
     const buffer=await soundContext.decodeAudioData(await response.arrayBuffer());
     effectBuffers[name]={buffer,offset:soundStart(buffer)};
-  }catch{ /* falls back to <audio> */ }
+  }catch{ /* fallback pake elemen audio biasa */ }
 });
 function unlockEffects(){
   if(soundContext?.state==='suspended')soundContext.resume().catch(()=>{});
@@ -435,7 +435,7 @@ room.addEventListener('wheel',e=>{
   lookTween=null;
   if(!lookFrame)lookFrame=requestAnimationFrame(renderLook);
 },{passive:false});
-// stop middle click from autoscrolling or opening new tabs
+// cegah scroll otomatis atau buka tab baru pas klik tengah
 room.addEventListener('auxclick',e=>{if(e.button===1)e.preventDefault();});
 window.addEventListener('pointermove',e=>{
   if(!looking||active||busy||e.pointerType!=='mouse')return;
@@ -460,7 +460,7 @@ async function openingDocument(period,customDuration=0){
 }
 function fitComputer(){
   if(active||busy)return;
-  // scale the computer to fit the window
+  // atur skala komputer biar pas sama ukuran layar
   const fit=Math.min(1,(innerHeight*.80)/computer.offsetHeight,(innerWidth-(innerWidth<=700?16:38))/computer.offsetWidth);
   computer.style.setProperty('--fit',String(fit));
 }
@@ -482,7 +482,7 @@ async function enter(period,animate=true){
   const wasLooking=looking||lookFrame||currentScale>1.001;
   const lookTransform=room.style.transform||'translate(0,0) scale(1)';
   stopLook(true);
-  // stop parallax before zooming in
+  // matiin dulu gerak parallax sebelum kamera nge-zoom
   if(frame)cancelAnimationFrame(frame);frame=0;tx=px;ty=py;tz=pz;
   document.body.classList.add('zoom-active');
   document.body.style.overflow='hidden';
@@ -493,7 +493,7 @@ async function enter(period,animate=true){
   const camera=cameraTarget();
   if(animate&&!media.matches){
     const finishOpening=await openingDocument(period);
-    // zoom into the screen
+    // animasi zoom kamera masuk ke dalem monitor
     finishOpening();
     fadeAudio(landingMusic,0,650);
     await room.animate([{transform:fromCamera},{transform:camera}],{duration:1350,easing:'cubic-bezier(.7,.03,.2,1)',fill:'forwards'}).finished;
@@ -508,8 +508,8 @@ async function enter(period,animate=true){
   selection.focus({preventScroll:true});busy=false;
   syncRoute();
 }
-// Fetch the article's font faces and photo while the "opening document" dialog runs,
-// so the page is ready to ink in the moment the zoom lands.
+// ambil font sama gambar artikel pas loading bar lagi jalan,
+// jadi pas zoom kelar, halaman artikelnya langsung siap muncul
 const warmed=new Set();
 function warmArticle(period){
   if(document.fonts?.load&&!warmed.has('fonts')){
@@ -527,9 +527,9 @@ function inkIn(){
   selection.classList.remove('inking');
   if(media.matches)return;
   const blocks=selection.querySelectorAll('.return,.period-kicker,.period-title,.period-sub,.period-body>p,.period-figure img,.period-figure figcaption,.period-sources');
-  // Stagger top to bottom; anything further down shares the last slot.
+  // animasi muncul bertahap dari atas ke bawah
   blocks.forEach((el,i)=>el.style.setProperty('--d',String(220+Math.min(i,9)*130)));
-  void selection.offsetWidth; // restart the animation when switching eras
+  void selection.offsetWidth; // reset trigger animasi pas ganti era
   selection.classList.add('inking');
   selection.dispatchEvent(new Event('inkreveal'));
   inkTimer=setTimeout(()=>selection.classList.remove('inking'),220+9*130+2300);
@@ -643,12 +643,12 @@ $('#home-link').addEventListener('click',()=>showInfo(false));
 $('.wordmark').addEventListener('click',()=>showInfo(false));
 $('.skip').addEventListener('click',()=>showInfo(false,false));
 window.addEventListener('keydown',async e=>{if(e.key==='Escape'){if(active)returnToRoom();else if(!info.hidden){await showInfo(false,false);infoButton.focus();}else if(looking)stopLook();}});
-// Cached washi paper surface for the period page
+// bikin tekstur kertas washi buat background artikel
 let setScrollTint=()=>{};
 (()=>{
   const canvas=$('#scroll-bg');
   if(!canvas)return;
-  // Rasterize a small grain tile once; reuse it across every article.
+  // generate tekstur bintik serat kertas sekali doang, trus dipake berulang kali
   const grain=document.createElement('canvas');
   grain.width=grain.height=128;
   const ctx=grain.getContext('2d');
@@ -665,7 +665,7 @@ let setScrollTint=()=>{};
     }
     ctx.putImageData(pixels,0,0);
     selection.style.setProperty('--paper-grain',`url("${grain.toDataURL('image/png')}")`);
-    // Reuse the same fibers as gaps in the printed ink; cache once per load.
+    // pake serat yang sama buat celah tinta biar ada efek cetakannya
     for(let i=0;i<pixels.data.length;i+=4){
       const coverage=pixels.data[i+3];
       pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=255;
@@ -825,8 +825,8 @@ void main(){
   const uTint=gl.getUniformLocation(prog,'uTint');
 
 
-  // Bake a repeating paper surface once per era, independent of article length.
-  // Reflect the second half so both repeat boundaries meet without a hard edge.
+  // bikin kanvas kertas berulang per era biar ga berat
+  // bagian bawah di-mirror biar pas disambung ga ada garis sambungan yang keliatan
   const paperTile=document.createElement('canvas');
   const paperContext=paperTile.getContext('2d');
   if(!paperContext)return;

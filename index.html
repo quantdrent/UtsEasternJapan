@@ -7,17 +7,39 @@
   <meta name="description" content="Explore eight periods of Japanese history through art. An interactive Eastern Art Review project.">
   <title>Eastern art review test</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=20261109b">
+  <link rel="preload" as="image" href="assets/kucingcina0.png">
+  <link rel="preload" as="image" href="assets/kucingcina1.png">
+  <link rel="preload" as="image" href="assets/ClockBase.png">
+  <link rel="preload" as="image" href="assets/ClockHour.png">
+  <link rel="preload" as="image" href="assets/ClockMin.png">
+  <link rel="preload" as="image" href="assets/ClockSec.png">
+  <link rel="stylesheet" href="style.css?v=20261109d">
   <script src="app.js?v=20261109b" defer></script>
   <script src="article-wash.js?v=20261109b" defer></script>
   <script src="crt.js?v=20261109b" defer></script>
   <script src="fx.js?v=20261109b" defer></script>
   <script src="warp.js?v=20261109b" defer></script>
+  <script src="clock.js?v=20261109d" defer></script>
 </head>
 <body>
 <a class="skip" href="#period-grid">Skip to periods</a>
 <main class="room" id="room" aria-label="A vintage computer on a wooden table in a Japanese room">
-  <div class="room-layer" aria-hidden="true"></div>
+  <div class="room-layer layer-room" aria-hidden="true"></div>
+  <div class="room-layer layer-calendar" aria-hidden="true"></div>
+  <div class="room-layer layer-clock" aria-hidden="true">
+    <div class="wall-clock" id="wall-clock" role="img" aria-label="Analog wall clock">
+      <div class="clock-face"></div>
+      <div class="clock-hand clock-hour" id="clock-hour"></div>
+      <div class="clock-hand clock-min" id="clock-min"></div>
+      <div class="clock-hand clock-sec" id="clock-sec"></div>
+    </div>
+  </div>
+  <div class="room-layer layer-cableft" aria-hidden="true"></div>
+  <div class="room-layer layer-artifact" aria-hidden="true"></div>
+  <div class="room-layer layer-cabright" aria-hidden="true"></div>
+  <div class="room-layer layer-neko" aria-hidden="true"></div>
+  <div class="room-layer layer-vase" aria-hidden="true"></div>
+  <div class="room-layer layer-teapot" aria-hidden="true"></div>
   <div class="desk-layer" aria-hidden="true"></div>
   <div class="computer">
     <div class="monitor">

@@ -4,7 +4,23 @@ body{overflow:hidden}
 .skip{position:fixed;top:10px;left:10px;padding:12px;background:#fff;z-index:30;transform:translateY(-160%)}.skip:focus{transform:none}
 .room{height:100svh;position:relative;overflow:hidden;isolation:isolate;background:#d7c49a;transform-origin:0 0;will-change:transform}
 .room-layer,.desk-layer{position:absolute;inset:-20px;pointer-events:none;background-size:100% 100%;background-repeat:no-repeat;transform-origin:50% 80%;will-change:transform}
-.room-layer{background-image:url('assets/room-layer.png');transform:translate(calc(var(--px)*-8px),calc(var(--py)*-5px + var(--pz)*10px)) scale(calc(1 + var(--pz)*.045))}.desk-layer{background-image:url('assets/desk-layer.png');transform:translate(calc(var(--px)*-15px),calc(var(--py)*-8px + var(--pz)*18px)) scale(calc(1 + var(--pz)*.08))}
+.layer-room{background-image:url('assets/room-layer.png');transform:translate(calc(var(--px)*-6px),calc(var(--py)*-4px + var(--pz)*8px)) scale(calc(1 + var(--pz)*.035))}
+.layer-calendar{background-image:url('assets/Calendar.png');transform:translate(calc(var(--px)*-7px),calc(var(--py)*-4.5px + var(--pz)*9px)) scale(calc(1 + var(--pz)*.04))}
+.layer-clock{transform:translate(calc(var(--px)*-7px),calc(var(--py)*-4.5px + var(--pz)*9px)) scale(calc(1 + var(--pz)*.04))}
+.wall-clock{position:absolute;left:85%;top:7.5%;width:9.375%;aspect-ratio:1/1}
+.clock-face,.clock-hand{position:absolute;inset:0;background-size:100% 100%;background-repeat:no-repeat;background-position:center;transform-origin:49.8% 49.9%;will-change:transform}
+.clock-face{background-image:url('assets/ClockBase.png')}
+.clock-hour{background-image:url('assets/ClockHour.png')}
+.clock-min{background-image:url('assets/ClockMin.png')}
+.clock-sec{background-image:url('assets/ClockSec.png')}
+.layer-cableft{background-image:url('assets/Cableft.png');transform:translate(calc(var(--px)*-9px),calc(var(--py)*-5.5px + var(--pz)*11px)) scale(calc(1 + var(--pz)*.05))}
+.layer-artifact{background-image:url('assets/randomartifactlefttop.png');transform:translate(calc(var(--px)*-9px),calc(var(--py)*-5.5px + var(--pz)*11px)) scale(calc(1 + var(--pz)*.05))}
+.layer-cabright{background-image:url('assets/Cabright.png');transform:translate(calc(var(--px)*-10.5px),calc(var(--py)*-6px + var(--pz)*12px)) scale(calc(1 + var(--pz)*.055))}
+@keyframes cat-wave{0%,49.9%{background-image:url('assets/kucingcina0.png')}50%,100%{background-image:url('assets/kucingcina1.png')}}
+.layer-neko{background-image:url('assets/kucingcina0.png');animation:cat-wave 4s steps(1) infinite;transform:translate(calc(var(--px)*-10.5px),calc(var(--py)*-6px + var(--pz)*12px)) scale(calc(1 + var(--pz)*.055))}
+.layer-vase{background-image:url('assets/Vase.png');transform:translate(calc(var(--px)*-12.5px),calc(var(--py)*-7px + var(--pz)*14px)) scale(calc(1 + var(--pz)*.065))}
+.layer-teapot{background-image:url('assets/botolteh.png');transform:translate(calc(var(--px)*-14px),calc(var(--py)*-7.5px + var(--pz)*16px)) scale(calc(1 + var(--pz)*.072))}
+.desk-layer{background-image:url('assets/desk-layer.png');transform:translate(calc(var(--px)*-16px),calc(var(--py)*-8.5px + var(--pz)*19px)) scale(calc(1 + var(--pz)*.082))}
 .computer{position:absolute;width:min(820px,calc(100vw - 42px));bottom:15%;left:50%;transform-origin:50% 100%;transform:translate(calc(-50% + var(--px)*-21px),calc(var(--py)*-11px + var(--pz)*18px)) scale(calc(var(--fit,1)*(1 + var(--pz)*.095)));will-change:transform}
 .monitor{position:relative;background:linear-gradient(130deg,#ded5b8,#ccc2a3 80%);border:3px solid transparent;border-radius:31px;padding:24px 27px 49px}
 .socket{background:#323c35;border:12px solid #8e8c75;border-radius:23px;padding:10px}
@@ -38,19 +54,19 @@ body{overflow:hidden}
 .era-title{position:relative;z-index:2;font-size:3.2cqw;font-weight:900;margin:auto 0 0;line-height:1.05;letter-spacing:-.04cqw;text-shadow:0 2px 4px rgba(0,0,0,.55)}
 .portal footer{padding:1.2cqw 2cqw;display:flex;justify-content:space-between;align-items:center;font-size:2.2cqw;font-weight:700;color:#555;background:var(--panel);border-top:1px solid var(--line)}.portal footer i{font-style:normal;margin:0 .7cqw}.portal footer button{background:none;color:var(--red);font-size:2.2cqw;font-weight:800;padding:.3cqw}
 .case-controls{position:absolute;right:32px;bottom:16px;display:flex;align-items:center;gap:14px}.switch{width:8px;height:12px;background:#737564;transition:transform .15s,background .15s}.power-light{width:15px;height:15px;padding:0;border-radius:50%;background:#9be356;box-shadow:0 0 7px rgba(155,227,86,.75);transition:background .2s,box-shadow .2s,transform .1s}.power-light:active{transform:scale(.88)}.monitor.power-off .power-light{background:#4a4f42;box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}.monitor.power-off .switch{transform:translateY(2px);background:#5a5c4e}.monitor.power-off .portal{pointer-events:none;user-select:none}.monitor.screen-asleep .portal{opacity:0;visibility:hidden}.neck{height:35px;width:29%;margin:0 auto;background:#b4a88a;clip-path:polygon(16% 0,84% 0,100% 100%,0 100%)}.foot{height:13px;width:41%;margin:-1px auto 0;border-radius:5px;background:#c6b99a}
-/* css crt fallback */
+/* efek crt cadangan kalo webgl ga jalan */
 .crt-glass,.crt-grain,.crt-scan{display:none;position:absolute;inset:0;pointer-events:none;z-index:8;border-radius:inherit}.crt-enabled>.crt-glass,.crt-enabled>.crt-grain,.crt-enabled>.crt-scan{display:block}
 .crt-glass{background:repeating-linear-gradient(to bottom,transparent 0px,transparent 2px,rgba(20,30,20,.13) 2px,rgba(20,30,20,.13) 3px),radial-gradient(ellipse at center,transparent 47%,rgba(26,32,24,.2) 100%),linear-gradient(115deg,rgba(255,255,220,.12),transparent 45%);mix-blend-mode:multiply}
 .crt-grain{opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23000' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");background-size:180px;mix-blend-mode:multiply}
 .crt-scan{background:linear-gradient(to bottom,transparent,rgba(210,255,231,.07),transparent);height:20%;animation:scan 9s linear infinite}.crt-enabled .portal{text-shadow:.15px 0 rgba(255,0,70,.08),-.15px 0 rgba(0,130,255,.08)}@keyframes scan{from{transform:translateY(-100%)}to{transform:translateY(600%)}}
 .connection{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:7;background:#20263130;cursor:wait}.connection-window{width:78%;background:#c8c8c2;border:2px solid #333;color:#080808;padding:4px;font-family:inherit}.connection-title{background:#182765;color:white;display:flex;justify-content:space-between;padding:1.15cqw 1.5cqw;font-size:2.35cqw;font-weight:700}.connection-body{display:flex;align-items:center;gap:2.4cqw;padding:3cqw 2.7cqw}.connection-body b{display:block;font-size:2.7cqw;line-height:1.15;font-weight:700}.connection-body div>span{display:block;font-size:1.9cqw;margin-top:1cqw;font-weight:700}.hourglass{font-size:6.5cqw;filter:grayscale(1)}.connection-track{height:3.3cqw;border:1px solid #505050;margin:0 2.7cqw;background:#f5f5f5;padding:2px}.connection-track>div{height:100%;width:0;background:repeating-linear-gradient(90deg,#182765 0 1.35cqw,transparent 1.35cqw 1.75cqw)}.connection-status{padding:1.5cqw 2.7cqw;display:flex;justify-content:space-between;font-size:2cqw;font-weight:700}.zoom-active .portal{cursor:wait}.zoom-stage{position:fixed;inset:0;z-index:10;background:#f4efdf}.zoom-stage .screen{width:100%;height:100%;overflow:auto;border-radius:0;container-type:inline-size}.zoom-stage .crt-glass,.zoom-stage .crt-grain,.zoom-stage .crt-scan{display:none}
-/* Small screens: only the plastic case slims down; the portal inside keeps the exact desktop layout (everything is in cqw, so it scales 1:1). */
+/* buat layar hp: ukuran casing doang yg ngecilin, dalemannya tetep 1:1 pake cqw */
 @media(max-width:700px){
  .room-layer,.desk-layer{inset:-10px -25%}.computer{width:calc(100vw - 20px)}.monitor{padding:12px 10px 37px;border-radius:23px}.socket{padding:5px;border-width:6px;border-radius:12px}.case-controls{right:20px;bottom:10px;gap:10px}.power-light{width:12px;height:12px}.neck{height:25px}.foot{height:10px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.room-layer,.desk-layer{transform:none}.computer{transform:translateX(-50%) scale(var(--fit,1))}.crt-scan{display:none!important}.ticker-track{transform:none}}
 
-/* credits window (flat design) */
+/* jendela popup credits */
 .info-window{margin:1.3cqw 2cqw 1.5cqw;border:1px solid #1a2352;background:#fff;flex:1;display:flex;flex-direction:column;min-height:0}
 .info-titlebar{display:flex;align-items:center;justify-content:space-between;padding:.75cqw 1.4cqw;background:#182765;color:#fff}
 .info-titlebar h2{margin:0;font-size:2.2cqw;font-weight:900;letter-spacing:.04cqw;color:#fff;outline:none}
@@ -97,7 +113,7 @@ body.puppets-paused .puppet-stage *, .screen-asleep .puppet-stage *{animation-pl
 .scroll-bg{display:none}
 .period-page{position:relative;max-width:760px;margin:0 auto}
 .selection::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background-image:var(--paper-grain,none);background-size:128px 128px}
-/* Document-anchored pigment layer washes over the paper, type, and photographs. */
+/* layer efek tinta buat kertas & gambar */
 .article-wash{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;contain:strict}
 .return{margin:0;padding:0;border:0;background:none;color:#3a2f25;font:600 16px/1.2 'Shippori Mincho',serif;letter-spacing:.04em;cursor:pointer;opacity:.8}
 .return:hover{opacity:1;color:var(--era)}
@@ -106,7 +122,7 @@ body.puppets-paused .puppet-stage *, .screen-asleep .puppet-stage *{animation-pl
 .period-title{margin:0;font-size:clamp(38px,6vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.01em;color:#302217}
 .period-sub{margin:10px 0 0;font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#493525}
 .period-body{font-size:clamp(17px,1.8vw,20px);font-weight:500;line-height:1.85;color:#36271b}
-/* Small cached masks break up ink coverage without blurring the letter shapes. */
+/* tekstur kertas biar tulisannya ga terlalu polos */
 .period-title,.period-kicker,.period-sub,.period-body>p,.period-figure figcaption,.period-sources{mix-blend-mode:multiply;mask-image:var(--ink-wear,none);mask-size:128px 128px;mask-repeat:repeat}
 .period-body p{margin:0 0 20px}
 .period-figure{margin:32px 0;text-align:center}
@@ -116,34 +132,34 @@ body.puppets-paused .puppet-stage *, .screen-asleep .puppet-stage *{animation-pl
 .period-sources{margin-top:36px;padding-top:18px;border-top:1px solid rgba(35,26,18,.18);font-size:15px;line-height:1.7;color:#4a3c2f;word-break:break-all}
 .period-sources p{margin:0 0 6px}
 .period-sources a{color:var(--era);text-decoration:underline;text-underline-offset:3px}
-/* Ink soaking into the paper when an article opens. --ink drives a feathered mask front. */
+/* efek tinta meresap pas halaman artikel baru dibuka */
 @property --ink{syntax:'<percentage>';inherits:false;initial-value:200%}
 .selection.inking :is(.return,.period-kicker,.period-title,.period-sub,.period-body>p,.period-figure figcaption,.period-sources){mask-image:var(--ink-wear,linear-gradient(#000,#000)),linear-gradient(168deg,#000 calc(var(--ink) - 32%),transparent var(--ink));mask-size:128px 128px,100% 100%;mask-repeat:repeat,no-repeat;mask-composite:intersect;animation:ink-soak 1.6s cubic-bezier(.33,.1,.2,1) calc(var(--d,0) * 1ms) both;will-change:opacity,filter}
 .selection.inking .period-figure img{mask-image:radial-gradient(closest-side,#000 calc(var(--ink) - 45%),transparent var(--ink)),linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);mask-size:100% 100%;mask-repeat:no-repeat;mask-composite:intersect;animation:ink-bloom 2.1s cubic-bezier(.25,.1,.2,1) calc(var(--d,0) * 1ms) both}
 @keyframes ink-soak{from{--ink:0%;opacity:0;filter:blur(3px)}45%{opacity:1}to{--ink:140%;opacity:1;filter:blur(0)}}
 @keyframes ink-bloom{from{--ink:0%;opacity:0;transform:scale(.985)}40%{opacity:.88}to{--ink:190%;opacity:.88;transform:none}}
 
-/* crt shader */
+/* shader crt */
 .crt-shader{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;mix-blend-mode:multiply;border-radius:inherit}
 .crt-enabled.shader-on>.crt-shader{display:block}
 .crt-enabled.shader-on>.crt-glass,.crt-enabled.shader-on>.crt-grain{display:none}
-/* rolling scan line */
+/* garis scanline jalan */
 .crt-scan{will-change:transform}.monitor.screen-asleep .crt-scan{display:none!important}
 .crt-enabled.shader-on .portal{text-shadow:.15px 0 rgba(255,0,60,.08),-.15px 0 rgba(0,120,255,.08)}
 .zoom-stage .crt-shader{display:none!important}
 
-/* fx.js layers */
+/* layer tambahan dari fx.js */
 .crt-signal{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:8;border-radius:inherit}
 .zoom-stage .crt-signal{display:none!important}
 .room-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;mix-blend-mode:soft-light}
 
-/* screen warp */
+/* efek layar cembung */
 .screen.warp-on{background:#1c221e}
 .screen.warp-on>.portal,.screen.warp-on>.connection{filter:url(#crt-warp) saturate(1.35) contrast(1.10)}
 .camera-active .shock-burst{animation-play-state:paused}
 .zoom-stage .screen,.zoom-stage .portal{filter:none!important;background:#ebe1cb}
 
-/* custom cursor inside the screen */
+/* kursor jadul di dalem monitor */
 .crt-cursor{position:absolute;top:0;left:0;width:32px;height:32px;pointer-events:none;z-index:8;image-rendering:pixelated;will-change:transform}
 .monitor.screen-asleep .crt-cursor,.zoom-stage .crt-cursor{display:none!important}
 .room .screen,.room .screen *{cursor:none!important}
