@@ -54,8 +54,36 @@ body{overflow:hidden}
 .info-titlebar h2{margin:0;font:700 1.6cqw 'Courier New',monospace}
 .info-titlebar button{font-size:2.2cqw;line-height:1;background:#c8c8c2;color:#141a20;border:1px solid #333;padding:0 .55cqw;font-family:'Courier New',monospace;font-weight:700}
 .info-titlebar button:hover{background:#e2e2dc}
-.info-names{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:3px;border:1px solid #606060;background:#f1f0e7;padding:2cqw 4cqw;font:700 2.4cqw/1.5 'Courier New',monospace;color:#222}
-.info-names p{margin:.4cqw 0}
+.credits-body{position:relative;isolation:isolate;display:grid;grid-template-columns:53% 1fr;flex:1;min-height:38cqw;margin-top:3px;overflow:hidden}
+.info-names{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:1.4cqw;padding:2cqw;font:700 2.5cqw/1.2 'MS PGothic','ＭＳ Ｐゴシック',sans-serif;color:#141a20;min-width:0}
+.info-names p{margin:0}
+.info-names small{display:block;margin-top:.35cqw;font:400 2.1cqw/1.2 'Courier New',monospace;letter-spacing:.04em}
+/* Slide the rod along the bottom; turn only while stopped at either end. */
+.puppet-stage{position:relative;min-width:0;pointer-events:none}
+.puppet-track{position:absolute;left:1cqw;bottom:-2.7cqw;width:18cqw;--trip:18s;--phase:0s;animation:puppet-patrol var(--trip) ease-in-out var(--phase) infinite;animation-play-state:paused}
+.puppet-facing{width:100%;transform:scaleX(-1);animation:puppet-turn var(--trip) ease-in-out var(--phase) infinite;animation-play-state:paused}
+.puppet-track img{display:block;width:100%;height:auto;user-select:none;transform-origin:50% 98%;animation:puppet-hand-idle 3.2s ease-in-out infinite;animation-play-state:paused}
+.puppet-one{--trip:19s;--phase:-2s;z-index:2}
+.puppet-two{--trip:23s;--phase:-10s;z-index:1}
+.puppet-two img{animation-duration:3.8s;animation-delay:-1.3s}
+.puppet-three{--trip:21s;--phase:-16s;z-index:3}
+.puppet-three img{animation-duration:2.9s;animation-delay:-.7s}
+.info-window:not([hidden]) .puppet-track,.info-window:not([hidden]) .puppet-facing,.info-window:not([hidden]) .puppet-track img{animation-play-state:running}
+body.puppets-paused .puppet-stage *, .screen-asleep .puppet-stage *{animation-play-state:paused!important}
+@keyframes puppet-patrol{
+  0%,4%,88%,100%{transform:translateX(-11cqw)}
+  40%,50%{transform:translateX(23cqw)}
+}
+@keyframes puppet-turn{
+  0%,44%,96%,100%{transform:scaleX(-1)}
+  46%,94%{transform:scaleX(1)}
+}
+@keyframes puppet-hand-idle{
+  0%,100%{transform:rotate(-2deg)}
+  30%{transform:rotate(2.5deg)}
+  58%{transform:rotate(-.8deg)}
+  78%{transform:rotate(1.2deg)}
+}
 .zoom-stage{background:#ede3ce}.zoom-active .skip{display:none}
 @font-face{font-family:'Shippori Mincho';src:url('assets/Fonts/ShipporiMincho-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
 @font-face{font-family:'Shippori Mincho';src:url('assets/Fonts/ShipporiMincho-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
@@ -85,7 +113,7 @@ body{overflow:hidden}
 .period-sources{margin-top:36px;padding-top:18px;border-top:1px solid rgba(35,26,18,.18);font-size:15px;line-height:1.7;color:#4a3c2f;word-break:break-all}
 .period-sources p{margin:0 0 6px}
 .period-sources a{color:var(--era);text-decoration:underline;text-underline-offset:3px}
-@media(max-width:700px){.info-titlebar h2{font-size:2.8cqw}.info-titlebar button{font-size:4.2cqw}.info-names{font-size:4cqw}}
+@media(max-width:700px){.info-titlebar h2{font-size:2.8cqw}.info-titlebar button{font-size:4.2cqw}.info-names{font-size:2.8cqw;gap:1.8cqw}.info-names small{font-size:2.4cqw}}
 
 /* crt shader */
 .crt-shader{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;mix-blend-mode:multiply;border-radius:inherit}

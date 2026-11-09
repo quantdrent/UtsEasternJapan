@@ -566,6 +566,9 @@ window.addEventListener('hashchange',()=>syncRoute());
 function returnToRoom(){if(busy)return;const home=new URL(location.href);home.hash='';history.replaceState(null,'',home.href);leave();}
 $('#return').addEventListener('click',returnToRoom);
 const info=$('#info-window'),infoButton=$('#info-button');
+const pausePuppets=()=>document.body.classList.toggle('puppets-paused',document.hidden);
+document.addEventListener('visibilitychange',pausePuppets);
+pausePuppets();
 async function showInfo(show,animate=true){
   if(busy||info.hidden===!show)return;
   if(animate&&!media.matches){
