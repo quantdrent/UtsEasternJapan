@@ -4,6 +4,7 @@ const MUSIC_TRACKS = {
   demonsDomain: 'assets/Audio/Music/demons-domain.mp3',
   sukuna: 'assets/Audio/Music/sukuna.mp3',
   rokudan: 'assets/Audio/Music/rokudan.mp3',
+  sakura: 'assets/Audio/Music/sakura.mp3',
   risingSun: 'assets/Audio/Music/rising-sun.mp3',
   emma: 'assets/Audio/Music/emma.mp3'
 };
