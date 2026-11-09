@@ -13,8 +13,12 @@
   <link rel="preload" as="image" href="assets/ClockHour.png">
   <link rel="preload" as="image" href="assets/ClockMin.png">
   <link rel="preload" as="image" href="assets/ClockSec.png">
-  <link rel="stylesheet" href="style.css?v=20261109d">
-  <script src="app.js?v=20261109b" defer></script>
+  <link rel="preload" as="image" href="assets/figure.png">
+  <link rel="preload" as="image" href="assets/Fuuummoooo.png">
+  <link rel="preload" as="image" href="assets/Pillow.png">
+  <link rel="preload" as="image" href="assets/bonsaiontoptable.png">
+  <link rel="stylesheet" href="style.css?v=20261109g">
+  <script src="app.js?v=20261109c" defer></script>
   <script src="article-wash.js?v=20261109b" defer></script>
   <script src="crt.js?v=20261109b" defer></script>
   <script src="fx.js?v=20261109b" defer></script>
@@ -35,12 +39,19 @@
     </div>
   </div>
   <div class="room-layer layer-cableft" aria-hidden="true"></div>
+  <div class="room-layer layer-figure" aria-hidden="true"></div>
   <div class="room-layer layer-artifact" aria-hidden="true"></div>
   <div class="room-layer layer-cabright" aria-hidden="true"></div>
   <div class="room-layer layer-neko" aria-hidden="true"></div>
+  <div class="room-layer layer-fumo">
+    <div class="fumo-sprite" id="fumo-sprite" aria-hidden="true"></div>
+    <button type="button" class="fumo-btn" id="fumo-btn" aria-label="Boneka Fumo" title="Squeak!"></button>
+  </div>
   <div class="room-layer layer-vase" aria-hidden="true"></div>
   <div class="room-layer layer-teapot" aria-hidden="true"></div>
+  <div class="room-layer layer-pillow" aria-hidden="true"></div>
   <div class="desk-layer" aria-hidden="true"></div>
+  <div class="room-layer layer-bonsai" aria-hidden="true"></div>
   <div class="computer">
     <div class="monitor">
       <div class="socket" id="socket">
@@ -108,5 +119,6 @@
 <audio id="sfx-mouse" src="assets/Audio/click-mouse.mp3" preload="auto"></audio>
 <audio id="sfx-loading" src="assets/Audio/LoadingLandingpage.mp3" preload="auto"></audio>
 <audio id="sfx-obesity" src="assets/Audio/obesity.mp3" preload="auto"></audio>
+<audio id="sfx-squeak" src="assets/Audio/squeaky.mp3" preload="auto"></audio>
 </body>
 </html>

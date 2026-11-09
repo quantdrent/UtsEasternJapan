@@ -205,8 +205,8 @@ $('#screen').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFra
 $('#room').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFrame&&!busy)setTarget(0,0,0);});
 media.addEventListener('change',()=>{motion=!media.matches;if(!motion)setTarget(0,0,0);});
 
-const effects=Object.fromEntries(['mouse','loading','obesity'].map(name=>[name,$(`#sfx-${name}`)]));
-const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set(),obesity:new Set()};
+const effects=Object.fromEntries(['mouse','loading','obesity','squeak'].map(name=>[name,$(`#sfx-${name}`)]));
+const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set(),obesity:new Set(),squeak:new Set()};
 let soundContext=null;
 try{soundContext=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});}catch{}
 effects.loading.loop=true;
@@ -257,10 +257,37 @@ function stopEffect(name){
   effectSources[name].clear();
 }
 function stopEffects(){Object.keys(effects).forEach(stopEffect);}
+
+// efek suara cit-cit & animasi pencet boneka fumo
+const fumoBtn=$('#fumo-btn');
+const fumoSprite=$('#fumo-sprite');
+function squeezeFumo(){
+  if(!onLanding()||busy)return;
+  playEffect('squeak');
+  if(fumoSprite){
+    fumoSprite.classList.remove('squeezing');
+    void fumoSprite.offsetWidth;
+    fumoSprite.classList.add('squeezing');
+  }
+}
+if(fumoBtn){
+  fumoBtn.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      unlockEffects();
+      squeezeFumo();
+    }
+  });
+}
+
 document.addEventListener('pointerdown',e=>{
   unlockEffects();
   if(e.target.closest('#credit-hirobhumi')){
     playEffect('obesity');
+    return;
+  }
+  if(e.target.closest('#fumo-btn')){
+    squeezeFumo();
     return;
   }
   if(!onLanding()||busy||e.button!==0||!e.target.closest('#screen'))return;
