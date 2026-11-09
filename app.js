@@ -1,8 +1,11 @@
 const MUSIC_TRACKS = {
   leiheng: 'assets/Audio/Music/leiheng.mp3',
-  sukuna: 'assets/Audio/Music/Hiroaki Tsutsumi - Ryomen Sukuna.mp3',
-  risingSun: 'assets/Audio/Music/Onimusha Warlords OST - (01) Rising Sun - 1st Movement.mp3',
-  emma: 'assets/Audio/Music/Original Soundtrack - Emma the Physician  Sekiro™ Shadows Die Twice OST.mp3'
+  mayoiUta: 'assets/Audio/Music/mayoi-uta.mp3',
+  demonsDomain: 'assets/Audio/Music/demons-domain.mp3',
+  sukuna: 'assets/Audio/Music/sukuna.mp3',
+  rokudan: 'assets/Audio/Music/rokudan.mp3',
+  risingSun: 'assets/Audio/Music/rising-sun.mp3',
+  emma: 'assets/Audio/Music/emma.mp3'
 };
 const periods = [
   {
@@ -11,7 +14,7 @@ const periods = [
     intro:[
       "Long before Emperors and written records, people lived in small tribal groups they relied on hunting, fishing and gathering. They made weapons such as bows and arrows to hunt safely with distance and fishing gears to catch fish and shellfishes. They’ve also developed some of the world's earliest known pottery to cook and boil foods, to store resources, and to do rituals, with the early signs of fertility rituals reflected in clay figurines called Dogu."
     ],
-    image:'assets/artifacts/jomon-dogu.png',
+    image:'assets/artifacts/jomon-dogu.webp',
     caption:'A goggle-eyed Shakōki Dogū figurine',
     outro:[
       "Dogū (土偶) are small clay figurines that were created during Japan’s Jōmon period, they usually depict human-like forms with unique shapes, detailed decorations, and sometimes large eyes. Made by shaping and firing clay, some were decorated with patterns and pigments. Although their exact purpose remains unknown, archaeologists believe that they may have been used in rituals related to fertility, childbirth, healing, prayer, and protection, as well as burial practices. One of the most famous examples is the Shakōki Dogū, known for its enormous, snow-goggle-like eyes. Their unusual appearance has led to many theories, that they represent extraterrestrials. However, there is no reliable evidence that Dogū depict aliens. Their actual meaning remains uncertain.",
@@ -24,13 +27,13 @@ const periods = [
     ]
   },
   {
-    id:'yayoi',music:MUSIC_TRACKS.leiheng,volume:0.40,name:'Yayoi',short:'YAYOI',type:'BRONZE BELL',years:'c. 300 BCE – 250 CE',
+    id:'yayoi',music:MUSIC_TRACKS.mayoiUta,volume:0.45,name:'Yayoi',short:'YAYOI',type:'BRONZE BELL',years:'c. 300 BCE – 250 CE',
     sub:'Rice farming and new hierarchies',color:'#00a63e',ink:[0.18,0.42,0.30],
     intro:[
       "The Yayoi period was a major transitional phase between the Jômon period that preceded it and the Kofun period that followed. Marked by profound changes and decisive advances, this era saw ancient Japan enter the metal age and adopt rice cultivation, paving the way for the emergence of classical Japanese civilization. Let's delve into the heart of this fascinating period to discover its key moments and main characteristics.",
       "Influences from southeastern China and Korea brought dotaku (bronze bells), iron weapons, and new agricultural techniques. The period is named after the Yayoi district in Tokyo, where its distinctive pottery style was first discovered in the 19th century."
     ],
-    image:'assets/artifacts/yayoi-dotaku.png',
+    image:'assets/artifacts/yayoi-dotaku.webp',
     caption:'Dôtaku (Bronze Bell)',
     outro:[
       "Produced during the late Yayoi period, the distinctive clapperless Japanese bronze bells known as dōtaku are thought to derive from earlier, smaller Korean examples that adorned horses and other domesticated animals. Dōtaku were buried, singly, in pairs, and in large groups occasionally with bronze mirrors and weapons in isolated locations, often on hilltops, perhaps to ensure a community’s agricultural fertility. Later dōtaku had relatively thin walls and would not have resonated, so it assumed their purpose was primarily ritual.",
@@ -43,13 +46,13 @@ const periods = [
     ]
   },
   {
-    id:'kofun',music:MUSIC_TRACKS.leiheng,volume:0.40,name:'Kofun',short:'KOFUN',type:'HANIWA FIGURE',years:'c. 250 – 538 CE',
+    id:'kofun',music:MUSIC_TRACKS.demonsDomain,volume:0.45,name:'Kofun',short:'KOFUN',type:'HANIWA FIGURE',years:'c. 250 – 538 CE',
     sub:'Tombs and Yamato authority',color:'#009fe8',ink:[0.17,0.38,0.50],
     intro:[
       "The Kofun period was known for its massive tomb mounds and the rise of the Yamato clan, this period is named after the style of burial mounds used durning this time. The tombs were filled with various objects such as wooden coffins, bronze mirrors and weapons reflecting the wealth and status of the deceased. Clay figures called haniwa, that depicts people, animals, and buildings, were placed around the tombs, possibly for protection or ritual purposes.",
       "During this period agriculture, ironworking, and pottery production also developed, while an increased contact with China and Korea brought new technologies, skilled immigrants, and cultural influences to Japan. Meanwhile, Shinto beliefs, centered on the worship of kami (gods or spirits), continued to develop from earlier Japanese traditions."
     ],
-    image:'assets/artifacts/kofun-haniwa.png',
+    image:'assets/artifacts/kofun-haniwa.webp',
     caption:'Haniwa, from the kofun period',
     outro:[
       "Haniwa are hollow clay tomb sculptures produced between the third and sixth century. They were made to be plaed on the tombs to honor the life and achievements of the deceased. Haniwa represents various figures such as people, animals and buildings/houses.",
@@ -69,7 +72,7 @@ const periods = [
       "The Heian era is known as the golden age of Japanese culture, it all began in 794 where Emperor Kanmu moved the capital from Nara to Heian-kyo (which would be known today as Kyoto) thus beginning the Heian Era. This movement was caused by the emperor wanting to distance himself from the influence of Nara’s Buddhist monestaries. Durning this period the Fujiwara family gained political influence while the imperial court developed an elegant aristocratic culture that valued poetry, calligraphy, music and art.",
       "Japanese literature flourished with the development of kana writing, producing famous works such as The Tale of Genji by Murasaki Shikibu. Art also developed through Yamato-e, a traditional Japanese painting style that depicted Japanese landscapes, seasonal scenery, court life, and stories from literature."
     ],
-    image:'assets/artifacts/heian-fudo-myoo.jpg',
+    image:'assets/artifacts/heian-fudo-myoo.webp',
     caption:'Fudō Myōō (Achala Vidyaraja)',
     outro:[
       "Durning this period Buddhism also expanded through schools influencing Japanese art and spirituality. This is the wooden statue of Fudō Myōō, a fierce Buddhist protector also known as the “Immovable One.” He is depicted to be holding a sword to cut through ignorance and a lasso to restrain those who obstruct the path to enlightenment. Standing statues of Fudō Myōō began appearing in the eleventh century. This particular statue was carved from six hollowed-out wooden pieces and once served as the central sacred image at Kuhonji Temple, northwest of Kyoto.",
@@ -82,13 +85,13 @@ const periods = [
     ]
   },
   {
-    id:'kamakura',music:MUSIC_TRACKS.leiheng,volume:0.40,name:'Kamakura',short:'KAMAKURA',type:'SAMURAI ARMOR',years:'1185 – 1333 CE',
+    id:'kamakura',music:MUSIC_TRACKS.rokudan,volume:0.45,name:'Kamakura',short:'KAMAKURA',type:'SAMURAI ARMOR',years:'1185 – 1333 CE',
     sub:'Warrior government',color:'#1828d9',ink:[0.15,0.21,0.48],
     intro:[
       "The Kamakura period marked the beginning of military rule in Japan, as power shifted from the imperial court to the shogunate. After the Taira clan was defeated in the Genpei war (Battle of Dan-no-ura), Minamoto no Yoritomo established a new base of power and became Japan’s first warrior government (Shogun) in 1192.",
       "During this period, agriculture, trade, and local administration developed, while samurai became the dominant political and military class. Samurai culture emphasized loyalty, discipline, and martial skill, buddhism also expanded, with new forms such as Pure Land Buddhism, which focused on faith and salvation, and Zen Buddhism, which emphasized meditation and self-discipline. These beliefs influenced Japanese art, such as realistic Buddhist sculptures, ink painting, and the early development of aesthetics associated with wabi, a spiritual concept which values simplicity and restraint."
     ],
-    image:'assets/artifacts/kamakura-yoroi.jpg',
+    image:'assets/artifacts/kamakura-yoroi.webp',
     caption:'Armor (Yoroi) of Ashikaga Takauji (1305–1358)',
     outro:[
       "This rare medieval Japanese Yoroi (samurai armor) was designed mainly for warriors fighting on horseback and was used from around the 10th to the 14th century. Featuring a protective cuirass, a separate side panel, and a deep skirt, originally decorated with white silk and colorful lacings symbolizing the rainbow, good fortune, and the fleeting beauty of life. The breastplate displayed Fudō Myō-ō, a fierce Buddhist deity representing inner strength, calmness, and determination—qualities highly valued by samurai. Its associated helmet dates to the mid-14th century. According to tradition, the armor was donated to the Shinomura Hachimangū Shrine by Ashikaga Takauji, the founder of the Ashikaga shogunate. This armor illustrates the connection between samurai warfare, Buddhist beliefs, and Japanese craftsmanship during the medieval period.",
@@ -101,13 +104,13 @@ const periods = [
     ]
   },
   {
-    id:'muromachi',music:MUSIC_TRACKS.leiheng,volume:0.40,name:'Muromachi',short:'MUROMACHI',type:'SWORD BLADE',years:'1392 – 1573 CE',
+    id:'muromachi',music:MUSIC_TRACKS.sakura,volume:0.45,name:'Muromachi',short:'MUROMACHI',type:'SWORD BLADE',years:'1392 – 1573 CE',
     sub:'Ashikaga rule and civil conflict',color:'#008a65',ink:[0.16,0.38,0.33],
     intro:[
       "The Muromachi period was an era of samurai ruled under the Ashikaga shogunate, spanned for nearly 2 centuries. Despite political rivalries and the devastating Onin War (1467) where regional warlords known as daimyo gained significant power, Japan had experienced economic growth and cultural development.",
       "Trade with Ming China began in 1401, and Zen Buddhism influenced education, government, and the arts. The Ashikaga shoguns supported traditional cultural practices such as the chanoyu tea ceremony, calligraphy, food presentations, renga poetry, and Noh theatre. Japanese ink painting also flourished, often combining Chinese-inspired landscapes with Zen-influenced simplicity. In 1549, Jesuit missionaries, including Francis Xavier, introduced Christianity and new Western influences to Japan."
     ],
-    image:'assets/artifacts/muromachi-masazane.png',
+    image:'assets/artifacts/muromachi-masazane.webp',
     caption:'Swordsmith Blade inscribed by Masazane, dated 1526',
     outro:[
       "Masazane was one of the most important swordsmiths of the Sengo Muramasa School, active in the late Muromachi period in Ise (Mie prefecture in present day). Masazane was best known for creating Tonbogiri, a famous spear known as the “Dragonfly Cutter.” Made in 1526, this sword has a rare grain pattern called the ayasugihada pattern, a distinctive concentric grain traditionally associated with the Gasan School, it is the only known example of this pattern made by a swordsmith outside that school. The tang is inscribed on the front, FUJIWARA MASAZANE SAKU (Masazane made this), and on the reverse, DAIEI ROKUNEN HACHIGATSU JŪNINICHI (August 12, 1526). Preserved in excellent condition and bearing Masazane’s signature and date, the sword is an important artifact demonstrating the craftsmanship of the Muromachi period.",
@@ -127,7 +130,7 @@ const periods = [
       "The Azuchi-Momoyama period was an era of military conflict and political unification in Japan. After the last Ashikaga shogunate was expelled, three major leaders helped bring the country together: Oda Nobunaga who captured Kyoto and ended Ashikaga rule, Toyotomi Hideyoshi who continued the unification process and Tokugawa Ieyasu who won the Battle of Sekigahara in 1600 and later established the Tokugawa shogunate. This period was named after the area near Kyoto where Hideyoshi built Fushimi Castle.",
       "Important events included the construction of Azuchi Castle in 1579 and the Battle of Nagashino in 1575. The period also saw cultural growth, known for its grand castles, lavish gold decorations, and bold paintings that reflected the wealth and power of the ruling warlords. In contrast, the tea ceremony promoted simplicity and natural beauty. International trade with China and Korea continued, while Portuguese and Dutch merchants and Catholic missionaries introduced new technologies, goods, and religious ideas. Hideyoshi also launched military invasions of Korea."
     ],
-    image:'assets/artifacts/momoyama-kabuto.jpg',
+    image:'assets/artifacts/momoyama-kabuto.webp',
     caption:'Helmet (Zukinnari Kabuto), Japanese 16th century',
     outro:[
       "A uniquely designed samurai helmet shaped like a sumi-zukin (角頭巾), a square hat commonly worn by elderly men, physicians, and priests. Its gold lacquer uses the tataki-nuri technique to imitate fabric, with red-and-gold decorations and brown-lacquered neck plates. The front crest depicts Fudō Myō-ō, a Buddhist protective deity surrounded by flames. The crest combines wooden and iron elements decorated with colorful lacquer. Dating to the Momoyama period (1573–1615), the helmet reflects the era’s luxurious artistic style, combining samurai armor, Buddhist symbolism, and elaborate craftsmanship.",
@@ -146,7 +149,7 @@ const periods = [
       "The Edo period was a time of relative peace and cultural blossoming in Japan under the rule of the Tokugawa shogunate. Centered in Edo (modern-day Tokyo), this era saw the country largely closed off to the outside world, which encouraged the development of a unique and richly layered Japanese culture. A rigid social order was established, with samurai at the top, followed by farmers, artisans, and merchants. Despite these divisions, towns and cities grew rapidly, becoming centers of trade, administration, and the arts.",
       "Closely associated with this was the rise of two new forms of theatre: bunraku, which was a form of puppet theatre, and kabuki, which used actors. At this time the most famous playwright was a man called Chikamatsu Monzaemon (1653-1724), and through his plays we can gain an insight into what Japanese society was like at the time. Ihara Saikaku (1642-1693) wrote novels about the lives of the new urban class, and Matsuo Basho (1644-1694) developed haiku poetry into a refined art form. Hishikawa Moronobu (1618-94) vividly portrayed scenes from the 'floating world' in a new art form called ukiyo-e (pictures of the floating world)."
     ],
-    image:'assets/artifacts/edo-bunraku.png',
+    image:'assets/artifacts/edo-bunraku.webp',
     caption:'Bunraku puppet, Early 17th Century',
     outro:[
       "Bunraku is a traditional Japanese puppet theatre featuring large, intricately designed puppets operated by three puppeteers. It combines expressive puppet movements, narration by a tayū, and music played on a three-stringed shamisen. The puppeteers are often visible on stage. Bunraku portrays stories about love, sacrifice, loyalty, honor, and tragedy. Its plays often depict the struggles between personal feelings and social obligations, using detailed puppet expressions, narration, and music to communicate emotions. Originating in Japan, Bunraku flourished during the Edo period (1603–1868). It reflects Japanese cultural values, including duty, family loyalty, and the conflict between social responsibilities and personal desires. It remains an important part of Japan's traditional performing arts.",
@@ -168,19 +171,27 @@ const landingPalette=['#bf0000','#e56600','#b87900','#3d982f','#0082bd','#008d87
 periods.forEach((period,index)=>{
   const a=document.createElement('a'); a.className='era'; a.href=`#period/${period.id}`;
   a.style.setProperty('--tile',landingPalette[index]);
+  a.setAttribute('data-period',period.id);
   a.setAttribute('aria-label',`Explore ${period.name} — ${period.type.toLowerCase()}`);
-  a.innerHTML=`<span class="era-meta"><span class="era-number">${String(index+1).padStart(2,'0')}</span>${period.type}</span><span class="era-title">${period.short}</span><span class="era-cta">OPEN <b aria-hidden="true">›</b></span>`;
+  a.innerHTML=`<img class="era-art" src="${period.image}" alt="" aria-hidden="true" decoding="async"><span class="era-meta"><span class="era-number">${String(index+1).padStart(2,'0')}</span>${period.type}</span><span class="era-title">${period.short}</span>`;
   grid.append(a);
 });
+// Start pulling an era's photo and fonts as soon as a card is hovered or touched.
+grid.addEventListener('pointerover',e=>{
+  const card=e.target.closest('.era');
+  if(card)warmArticle(periods.find(p=>card.hash===`#period/${p.id}`));
+},{passive:true});
 
 const media=matchMedia('(prefers-reduced-motion: reduce)');
 let motion=!media.matches, tx=0,ty=0,tz=0,px=0,py=0,pz=0,frame=0;
 
+const motionRoot=$('#room');
 function renderMotion(){
   px+=(tx-px)*.075; py+=(ty-py)*.075; pz+=(tz-pz)*.085;
-  document.documentElement.style.setProperty('--px',px.toFixed(4));
-  document.documentElement.style.setProperty('--py',py.toFixed(4));
-  document.documentElement.style.setProperty('--pz',pz.toFixed(4));
+  // Scope the parallax vars to the room so each frame only restyles its subtree.
+  motionRoot.style.setProperty('--px',px.toFixed(4));
+  motionRoot.style.setProperty('--py',py.toFixed(4));
+  motionRoot.style.setProperty('--pz',pz.toFixed(4));
   if(Math.abs(tx-px)+Math.abs(ty-py)+Math.abs(tz-pz)>.001) frame=requestAnimationFrame(renderMotion); else frame=0;
 }
 function setTarget(x,y,z=0){tx=x;ty=y;tz=z;if(!frame) frame=requestAnimationFrame(renderMotion);}
@@ -193,8 +204,8 @@ $('#screen').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFra
 $('#room').addEventListener('pointerleave',()=>{if(!active&&!looking&&!lookFrame&&!busy)setTarget(0,0,0);});
 media.addEventListener('change',()=>{motion=!media.matches;if(!motion)setTarget(0,0,0);});
 
-const effects=Object.fromEntries(['mouse','loading'].map(name=>[name,$(`#sfx-${name}`)]));
-const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set()};
+const effects=Object.fromEntries(['mouse','loading','obesity'].map(name=>[name,$(`#sfx-${name}`)]));
+const effectBuffers={}, effectSources={mouse:new Set(),loading:new Set(),obesity:new Set()};
 let soundContext=null;
 try{soundContext=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});}catch{}
 effects.loading.loop=true;
@@ -247,6 +258,10 @@ function stopEffect(name){
 function stopEffects(){Object.keys(effects).forEach(stopEffect);}
 document.addEventListener('pointerdown',e=>{
   unlockEffects();
+  if(e.target.closest('#credit-hirobhumi')){
+    playEffect('obesity');
+    return;
+  }
   if(!onLanding()||busy||e.button!==0||!e.target.closest('#screen'))return;
   playEffect('mouse');
 },true);
@@ -445,7 +460,7 @@ async function openingDocument(period,customDuration=0){
 function fitComputer(){
   if(active||busy)return;
   // scale the computer to fit the window
-  const fit=Math.min(1,(innerHeight*.80)/computer.offsetHeight,(innerWidth-38)/computer.offsetWidth);
+  const fit=Math.min(1,(innerHeight*.80)/computer.offsetHeight,(innerWidth-(innerWidth<=700?16:38))/computer.offsetWidth);
   computer.style.setProperty('--fit',String(fit));
 }
 new ResizeObserver(fitComputer).observe(computer);
@@ -462,6 +477,7 @@ async function enter(period,animate=true){
   if(busy)return;
   if(active){updateSelection(period);return;}
   busy=true;lastTrigger=document.activeElement;active=period;
+  warmArticle(period);
   const wasLooking=looking||lookFrame||currentScale>1.001;
   const lookTransform=room.style.transform||'translate(0,0) scale(1)';
   stopLook(true);
@@ -491,6 +507,32 @@ async function enter(period,animate=true){
   selection.focus({preventScroll:true});busy=false;
   syncRoute();
 }
+// Fetch the article's font faces and photo while the "opening document" dialog runs,
+// so the page is ready to ink in the moment the zoom lands.
+const warmed=new Set();
+function warmArticle(period){
+  if(document.fonts?.load&&!warmed.has('fonts')){
+    warmed.add('fonts');
+    ['500','600','700','800'].forEach(w=>document.fonts.load(`${w} 1em "Shippori Mincho"`).catch(()=>{}));
+  }
+  if(period?.image&&!warmed.has(period.image)){
+    warmed.add(period.image);
+    const img=new Image();img.decoding='async';img.src=period.image;
+  }
+}
+let inkTimer=0;
+function inkIn(){
+  clearTimeout(inkTimer);
+  selection.classList.remove('inking');
+  if(media.matches)return;
+  const blocks=selection.querySelectorAll('.return,.period-kicker,.period-title,.period-sub,.period-body>p,.period-figure img,.period-figure figcaption,.period-sources');
+  // Stagger top to bottom; anything further down shares the last slot.
+  blocks.forEach((el,i)=>el.style.setProperty('--d',String(220+Math.min(i,9)*130)));
+  void selection.offsetWidth; // restart the animation when switching eras
+  selection.classList.add('inking');
+  selection.dispatchEvent(new Event('inkreveal'));
+  inkTimer=setTimeout(()=>selection.classList.remove('inking'),220+9*130+2300);
+}
 function updateSelection(period){
   active=period;
   const [r,g,b]=(period.ink||[0.5,0.2,0.18]).map(v=>Math.round(v*255));
@@ -513,6 +555,7 @@ function updateSelection(period){
     const img=document.createElement('img');
     img.src=period.image;
     img.alt=period.caption||period.name;
+    img.decoding='async';
     const cap=document.createElement('figcaption');
     cap.textContent=period.caption||'';
     fig.append(img,cap);
@@ -547,10 +590,12 @@ function updateSelection(period){
   }
   screen.scrollTop=0;
   setScrollTint(period.ink||[0.5,0.2,0.18]);
+  inkIn();
 }
 async function leave(){
   if(busy||!active)return;busy=true;
   active=null;
+  clearTimeout(inkTimer);selection.classList.remove('inking');
   document.body.classList.remove('zoom-active');document.body.style.overflow='';
   syncMusic();
   room.getAnimations().forEach(a=>a.cancel());
@@ -583,6 +628,16 @@ async function showInfo(show,animate=true){
 }
 infoButton.addEventListener('click',()=>showInfo(info.hidden));
 $('#info-close').addEventListener('click',async()=>{await showInfo(false);infoButton.focus();});
+const hirobhumi=$('#credit-hirobhumi');
+if(hirobhumi){
+  hirobhumi.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      unlockEffects();
+      playEffect('obesity');
+    }
+  });
+}
 $('#home-link').addEventListener('click',()=>showInfo(false));
 $('.wordmark').addEventListener('click',()=>showInfo(false));
 $('.skip').addEventListener('click',()=>showInfo(false,false));

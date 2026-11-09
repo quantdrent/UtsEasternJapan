@@ -324,6 +324,13 @@ void main(){
     if (!cursorFrame) cursorFrame = requestAnimationFrame(flushCursor);
     wake();
   }, {passive:true});
+  // touch/pen: jump the retro cursor to each tap so phones get the same pointer as desktop
+  window.addEventListener('pointerdown', e => {
+    if (!e.pointerType || e.pointerType === 'mouse') return;
+    pendingPointer = {clientX:e.clientX, clientY:e.clientY, target:e.target};
+    if (!cursorFrame) cursorFrame = requestAnimationFrame(flushCursor);
+    wake();
+  }, {passive:true});
   function flushCursor() {
     cursorFrame = 0;
     if (document.hidden || (stage && !stage.hidden)) return;

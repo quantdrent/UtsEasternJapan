@@ -24,6 +24,7 @@
     uniform vec2 uAspect;
     uniform vec3 uTint;
     uniform float uTime;
+    uniform float uReveal;
     void main(){
       // Convert canvas buffer fragments (bottom-up) to top-down CSS pixels anchored to the document
       vec2 viewportPx = vec2(
@@ -47,6 +48,13 @@
       vec3 pigment = mix(ink, vec3(.96, .89, .75), pale * .95);
       // Normal alpha blending also deposits warm pigment over dark lettering.
       float alpha = .025 + pool * .22 + rim * .085 + pale * .07;
+      // Opening an article: the densest pools soak in first and creep outward with a wet, darker front.
+      float level = wash + feather * .08;
+      float edge = 1. - uReveal * 1.4;
+      float spread = smoothstep(edge, edge + .12, level);
+      float front = spread * (1. - spread) * 4. * (1. - uReveal);
+      alpha = alpha * spread + front * .16;
+      pigment = mix(pigment, ink, front * .5);
       gl_FragColor = vec4(pigment, alpha);
     }`;
 
@@ -84,7 +92,7 @@
   gl.enableVertexAttribArray(position);
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
   const uniform = Object.fromEntries(
-    ['uField', 'uScroll', 'uViewport', 'uRes', 'uAspect', 'uTint', 'uTime'].map(name => [name, gl.getUniformLocation(program, name)])
+    ['uField', 'uScroll', 'uViewport', 'uRes', 'uAspect', 'uTint', 'uTime', 'uReveal'].map(name => [name, gl.getUniformLocation(program, name)])
   );
 
   // Periodic value noise keeps the cached field seamless as the ink drifts.
@@ -131,6 +139,15 @@
   let frame = 0, timer = 0, lost = false, needsSize = true;
   let width = 1, phase = 0, previousTime = 0;
   let tint = [.16,.28,.52];
+  const REVEAL_MS = 2600, REVEAL_DELAY = 200;
+  let revealStart = -Infinity;
+  function startReveal() {
+    revealStart = performance.now() + REVEAL_DELAY;
+    schedule();
+  }
+  selection.addEventListener('inkreveal', startReveal);
+  // Article opened straight from a #period/ link before this script loaded.
+  if (selection.classList.contains('inking')) startReveal();
   function visible() { return !lost && !document.hidden && !stage.hidden && !selection.hidden; }
   function resize() {
     width = screen.clientWidth || innerWidth;
@@ -163,8 +180,13 @@
     gl.uniform2f(uniform.uAspect, 1 / vpW, 1 / vpW);
     gl.uniform1f(uniform.uTime, phase);
     gl.uniform3f(uniform.uTint, ...tint);
+    // Ease the soak-in; render every frame while it runs, then settle back to 30 fps.
+    const t = reduced.matches ? 1 : Math.max(0, Math.min(1, (now - revealStart) / REVEAL_MS));
+    const reveal = 1 - Math.pow(1 - t, 3);
+    gl.uniform1f(uniform.uReveal, reveal);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
-    if (!reduced.matches) timer = setTimeout(() => { timer = 0; schedule(); }, 1000 / 30);
+    if (t < 1) schedule();
+    else if (!reduced.matches) timer = setTimeout(() => { timer = 0; schedule(); }, 1000 / 30);
   }
   function schedule() { if (!frame && visible()) frame = requestAnimationFrame(draw); }
   function refresh() {
